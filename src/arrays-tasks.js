@@ -517,8 +517,19 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  const { lengths } = nums.reduce(
+    (memo, num) => ({
+      lengths: [
+        ...memo.lengths,
+        num > memo.lastNum ? memo.lengths[memo.lengths.length - 1] + 1 : 1,
+      ],
+      lastNum: num,
+    }),
+    { lengths: [0], lastNum: Number.NEGATIVE_INFINITY }
+  );
+
+  return Math.max(...lengths);
 }
 
 /**
@@ -552,8 +563,11 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  const len = arr.length;
+  const shiftAmount = ((n % len) + len) % len;
+
+  return arr.slice(len - shiftAmount).concat(arr.slice(0, len - shiftAmount));
 }
 
 /**
